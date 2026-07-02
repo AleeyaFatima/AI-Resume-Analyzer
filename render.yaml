@@ -12,7 +12,7 @@ services:
         value: 8000
 
   # 2. Vite React Frontend Static Site
-  - type: web
+  - type: static
     name: resumeiq-frontend
     env: static
     buildCommand: npm install && npm run build
