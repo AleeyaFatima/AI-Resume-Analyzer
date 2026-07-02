@@ -1,0 +1,271 @@
+/* Cyberpunk Holo-Grid Custom Stylesheet */
+
+/* Fonts Load */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+body {
+  background-color: #06070a;
+  color: #E2E8F0;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  position: relative;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
+}
+
+/* Retro-Futuristic Holographic Grid Background */
+.holo-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -9;
+  pointer-events: none;
+  background-size: 50px 50px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 217, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 217, 255, 0.02) 1px, transparent 1px);
+}
+
+.aurora-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, #0c0f17 0%, #06070a 100%);
+  pointer-events: none;
+}
+
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.12;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.aurora-blob-1 {
+  background: radial-gradient(circle, #00D9FF 0%, transparent 75%);
+  width: 700px;
+  height: 700px;
+  top: -15%;
+  left: 5%;
+  animation: blob-move-1 28s ease-in-out infinite alternate;
+}
+
+.aurora-blob-2 {
+  background: radial-gradient(circle, #8B5CF6 0%, transparent 75%);
+  width: 600px;
+  height: 600px;
+  bottom: -15%;
+  right: 10%;
+  animation: blob-move-2 22s ease-in-out infinite alternate;
+}
+
+.aurora-blob-3 {
+  background: radial-gradient(circle, #FF007F 0%, transparent 75%);
+  width: 450px;
+  height: 450px;
+  top: 35%;
+  right: -5%;
+  animation: blob-move-3 32s ease-in-out infinite alternate;
+}
+
+@keyframes blob-move-1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(140px, 80px) scale(1.1); }
+  100% { transform: translate(-80px, 180px) scale(0.9); }
+}
+
+@keyframes blob-move-2 {
+  0% { transform: translate(0, 0) scale(1.15); }
+  50% { transform: translate(-150px, -90px) scale(0.85); }
+  100% { transform: translate(80px, -130px) scale(1.05); }
+}
+
+@keyframes blob-move-3 {
+  0% { transform: translate(0, 0) scale(0.9); }
+  50% { transform: translate(-90px, 140px) scale(1.1); }
+  100% { transform: translate(-120px, -70px) scale(1); }
+}
+
+/* Cyberpunk Glass Card with Corner Brackets */
+.cyber-card {
+  position: relative;
+  background: rgba(10, 12, 18, 0.7);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(0, 217, 255, 0.12);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.55);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 14px;
+}
+
+/* Cyber Corner Brackets */
+.cyber-card::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid #00D9FF;
+  border-left: 2px solid #00D9FF;
+  pointer-events: none;
+  border-top-left-radius: 4px;
+}
+
+.cyber-card::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 10px;
+  height: 10px;
+  border-bottom: 2px solid #8B5CF6;
+  border-right: 2px solid #8B5CF6;
+  pointer-events: none;
+  border-bottom-right-radius: 4px;
+}
+
+.cyber-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(0, 217, 255, 0.35);
+  box-shadow: 0 20px 50px rgba(0, 217, 255, 0.12), 0 15px 45px rgba(0, 0, 0, 0.55);
+}
+
+.cyber-card-magenta:hover {
+  border-color: rgba(255, 0, 127, 0.35);
+  box-shadow: 0 20px 50px rgba(255, 0, 127, 0.12), 0 15px 45px rgba(0, 0, 0, 0.55);
+}
+
+.cyber-card-magenta::before {
+  border-color: #8B5CF6;
+}
+.cyber-card-magenta::after {
+  border-color: #FF007F;
+}
+
+/* Digital Numbers styling */
+.font-digital {
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 10px rgba(0, 217, 255, 0.4);
+}
+
+.font-digital-magenta {
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 10px rgba(255, 0, 127, 0.4);
+}
+
+/* Laser scan animation overlay */
+.laser-scanner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #00D9FF, transparent);
+  animation: laser-scan 4s linear infinite;
+  pointer-events: none;
+  box-shadow: 0 0 12px #00D9FF;
+}
+
+@keyframes laser-scan {
+  0% { top: 0%; opacity: 0; }
+  5% { opacity: 1; }
+  95% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Dynamic glow button */
+.glow-btn {
+  background: linear-gradient(90deg, #00D9FF, #8B5CF6);
+  color: #06070a;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
+}
+
+.glow-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: all 0.6s ease;
+}
+
+.glow-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(0, 217, 255, 0.5), 0 0 10px rgba(139, 92, 246, 0.3);
+}
+
+.glow-btn:hover::before {
+  left: 100%;
+}
+
+/* Bouncing glowing sphere */
+.sphere-gradient {
+  background: radial-gradient(circle at 35% 35%, #00D9FF 0%, #8B5CF6 50%, #FF007F 80%, #06070a 100%);
+  box-shadow: 0 0 45px rgba(0, 217, 255, 0.45), inset -12px -12px 30px rgba(0,0,0,0.85);
+  animation: bounce-float 5s ease-in-out infinite;
+}
+
+@keyframes bounce-float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(8deg); }
+}
+
+/* Pulse Beacon */
+.beacon-active {
+  width: 6px;
+  height: 6px;
+  background-color: #00D9FF;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00D9FF;
+  animation: beacon-blink 1.2s ease-in-out infinite;
+}
+
+@keyframes beacon-blink {
+  0%, 100% { opacity: 0.2; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* Custom interactive inputs styling */
+input:focus, textarea:focus {
+  border-color: #00D9FF !important;
+  box-shadow: 0 0 12px rgba(0, 217, 255, 0.2) !important;
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #06070a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 217, 255, 0.15);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 217, 255, 0.3);
+}

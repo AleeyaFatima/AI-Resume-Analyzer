@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #111827;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    color: #FFFFFF;
+  }
+}
+
+/* Moving Aurora Background */
+.aurora-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  overflow: hidden;
+  background-color: #111827;
+  pointer-events: none;
+}
+
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.12;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.aurora-blob-1 {
+  background: radial-gradient(circle, #8B5CF6 0%, transparent 80%);
+  width: 700px;
+  height: 700px;
+  top: -15%;
+  left: 5%;
+  animation: blob-move-1 25s ease-in-out infinite alternate;
+}
+
+.aurora-blob-2 {
+  background: radial-gradient(circle, #C4B5FD 0%, transparent 80%);
+  width: 600px;
+  height: 600px;
+  bottom: -15%;
+  right: 10%;
+  animation: blob-move-2 20s ease-in-out infinite alternate;
+}
+
+.aurora-blob-3 {
+  background: radial-gradient(circle, #A78BFA 0%, transparent 80%);
+  width: 500px;
+  height: 500px;
+  top: 35%;
+  right: -5%;
+  animation: blob-move-3 30s ease-in-out infinite alternate;
+}
+
+@keyframes blob-move-1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(120px, 90px) scale(1.15); }
+  100% { transform: translate(-60px, 160px) scale(0.9); }
+}
+
+@keyframes blob-move-2 {
+  0% { transform: translate(0, 0) scale(1.1); }
+  50% { transform: translate(-140px, -70px) scale(0.85); }
+  100% { transform: translate(70px, -110px) scale(1.05); }
+}
+
+@keyframes blob-move-3 {
+  0% { transform: translate(0, 0) scale(0.9); }
+  50% { transform: translate(-70px, 130px) scale(1.1); }
+  100% { transform: translate(-110px, -90px) scale(1); }
+}
+
+/* Glassmorphism Card Style */
+.glass-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0px 12px 40px rgba(139, 92, 246, 0.15);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0px 16px 45px rgba(139, 92, 246, 0.25);
+}
+
+/* Glow Effect */
+.card-glow-active {
+  border-color: rgba(139, 92, 246, 0.35);
+  box-shadow: 0px 0px 25px rgba(139, 92, 246, 0.2), 0px 12px 40px rgba(139, 92, 246, 0.15);
+}
+
+/* 3D Scene and Object Helper Styles */
+.scene-3d {
+  perspective: 1200px;
+}
+
+.cube-3d {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  transform-style: preserve-3d;
+  transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.cube-face-3d {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  border-width: 2px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  user-select: none;
+  transition: border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+}
+
+
+/* Floating AI Sphere */
+.sphere-gradient {
+  background: radial-gradient(circle at 35% 35%, #C4B5FD 0%, #8B5CF6 50%, #111827 100%);
+  box-shadow: 0 0 50px rgba(139, 92, 246, 0.4), inset -12px -12px 40px rgba(0,0,0,0.85);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(6deg); }
+}
+
+.animate-float-slow {
+  animation: float 7s ease-in-out infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111827;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.15);
+  border-radius: 10px;
+  border: 2px solid #111827;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.35);
+}
+
+/* Space Grotesk Font for Stats Numbers */
+.font-number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+}

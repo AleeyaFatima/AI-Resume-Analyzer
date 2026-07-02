@@ -1,0 +1,41 @@
+# Python virtual environments
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.pyc
+
+# Node dependencies & build outputs
+node_modules/
+dist/
+build/
+.next/
+out/
+
+# Environment configurations & local settings
+.env
+.env.*
+.local
+*.log
+
+# Caches & IDEs
+.cache/
+.eslintcache
+.parcel-cache
+.turbo/
+.vercel/
+.vite/
+.gemini/
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# OS Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini

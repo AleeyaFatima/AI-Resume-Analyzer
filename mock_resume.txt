@@ -1,0 +1,27 @@
+ALEEYA M.
+Email: aleeya@gmail.com
+Phone: +1-555-0199
+LinkedIn: linkedin.com/in/aleeya
+GitHub: github.com/aleeya
+
+OBJECTIVE
+Highly motivated Data Scientist and Software Engineer looking to leverage skills in machine learning, Python, React, TypeScript, and Docker to build state-of-the-art AI applications.
+
+SKILLS
+- Programming: Python, TypeScript, JavaScript, SQL, HTML, CSS
+- Frameworks & Tools: React, FastAPI, Docker, Node.js, Git, TensorFlow, Scikit-Learn
+- Database: MySQL, PostgreSQL, MongoDB
+
+EXPERIENCE
+Software Engineer | ResumeIQ AI (2025 - Present)
+- Developed and integrated local NLP processing pipelines for parsing resume text and evaluating ATS scores.
+- Implemented a responsive React dashboard frontend using TypeScript, Tailwind CSS, and Recharts.
+- Containerized development and production builds using Docker to deploy backend APIs on Render.
+
+Data Science Intern | DataCorp (2024 - 2025)
+- Trained and evaluated scikit-learn machine learning models for predictive analytics.
+- Structured data extraction pipelines using Python to parse large document datasets.
+
+EDUCATION
+Bachelor of Science in Computer Science
+University of Tech (Graduated 2024)
