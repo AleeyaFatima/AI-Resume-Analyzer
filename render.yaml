@@ -16,7 +16,7 @@ services:
     name: resumeiq-frontend
     env: static
     buildCommand: npm install && npm run build
-    staticPublishPath: dist
+    staticPublishPath: client/dist
     rootDir: client
     envVars:
       - key: VITE_API_URL
