@@ -64,7 +64,18 @@ export const OverviewTab: React.FC = () => {
     resumeFileName
   } = useAnalysis();
 
-  const [greeting, setGreeting] = useState('Welcome Back');
+  const getGreetingByTime = (): string => {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) {
+      return 'Good Morning';
+    } else if (hour >= 12 && hour < 17) {
+      return 'Good Afternoon';
+    } else {
+      return 'Good Evening';
+    }
+  };
+
+  const [greeting] = useState(getGreetingByTime);
   const [isJobMatcherOpen, setIsJobMatcherOpen] = useState(false);
   const [isInterviewCoachOpen, setIsInterviewCoachOpen] = useState(false);
   
@@ -75,13 +86,6 @@ export const OverviewTab: React.FC = () => {
   // Interview Coach State
   const [selectedCategory, setSelectedCategory] = useState<'All' | 'Technical' | 'Behavioral' | 'HR'>('All');
   const [expandedQuestion, setExpandedQuestion] = useState<number | null>(null);
-
-  useEffect(() => {
-    const hour = new Date().getHours();
-    if (hour < 12) setGreeting('Good Morning');
-    else if (hour < 18) setGreeting('Good Afternoon');
-    else setGreeting('Good Evening');
-  }, []);
 
   if (!analysisData) {
     return (

@@ -2,6 +2,25 @@ import io
 import pdfplumber
 import docx
 
+try:
+    import numpy as np
+    from PIL import Image
+    import easyocr
+    EASYOCR_AVAILABLE = True
+except ImportError:
+    EASYOCR_AVAILABLE = False
+
+_easyocr_reader = None
+
+def get_ocr_reader():
+    global _easyocr_reader
+    if not EASYOCR_AVAILABLE:
+        return None
+    if _easyocr_reader is None:
+        # Load reader lazily on first OCR call
+        _easyocr_reader = easyocr.Reader(['en'], gpu=False)
+    return _easyocr_reader
+
 def extract_text_from_pdf(file_bytes: bytes) -> str:
     """Extracts text content from a PDF file using pdfplumber."""
     text_content = []
@@ -39,6 +58,20 @@ def extract_text_from_docx(file_bytes: bytes) -> str:
     
     return "\n".join(text_content)
 
+def extract_text_from_image(file_bytes: bytes) -> str:
+    """Extracts text content from an image file using easyocr."""
+    try:
+        image = Image.open(io.BytesIO(file_bytes))
+        if image.mode != 'RGB':
+            image = image.convert('RGB')
+        image_np = np.array(image)
+        reader = get_ocr_reader()
+        results = reader.readtext(image_np, detail=0)
+        return "\n".join(results)
+    except Exception as e:
+        print(f"Error during OCR extraction: {e}")
+        return ""
+
 def parse_resume_bytes(file_bytes: bytes, filename: str) -> str:
     """Detects file type by extension and extracts text."""
     ext = filename.split(".")[-1].lower()
@@ -47,38 +80,20 @@ def parse_resume_bytes(file_bytes: bytes, filename: str) -> str:
     elif ext in ["docx", "doc"]:
         return extract_text_from_docx(file_bytes)
     elif ext in ["jpg", "jpeg", "png"]:
-        return """
-ALEEYA RAHMAN
-Software Engineer | Full Stack Developer
-Email: aleeya.rahman@example.com | Phone: (555) 019-2834
-LinkedIn: linkedin.com/in/aleeyarahman | GitHub: github.com/aleeyarahman
-
-SUMMARY
-Motivated and detail-oriented Full Stack Developer with 3+ years of experience building scalable web applications. Passionate about machine learning, cloud architecture, and database optimization.
-
-SKILLS
-- Languages: Python, JavaScript, TypeScript, SQL, HTML, CSS
-- Frameworks & Libraries: React, Node.js, Express, FastAPI, Tailwind CSS, NumPy, Pandas
-- Databases: PostgreSQL, MongoDB, Redis
-- Cloud & DevOps: AWS, Docker, Git, GitHub Actions, CI/CD
-
-EXPERIENCE
-Software Engineer | TechCorp Solutions (2023 - Present)
-- Led development of a real-time analytics dashboard using React, Tailwind, and Node.js.
-- Containerized applications using Docker and set up automated CI/CD pipelines via GitHub Actions.
-- Optimized database queries in PostgreSQL, reducing api load times by 25%.
-
-Junior Developer | InnovateWeb (2022 - 2023)
-- Built RESTful APIs using Python, Flask, and MongoDB.
-- Collaborated with product designers to implement responsive UI elements.
-
-EDUCATION
-Bachelor of Science in Computer Science | Global University (2018 - 2022)
-
-PROJECTS
-SaaS Dashboard Analytics
-- Developed a high-fidelity metrics dashboard client using React and Tailwind CSS.
-"""
+        if not EASYOCR_AVAILABLE:
+            raise ValueError("Image OCR engine is currently unavailable on the server. Please upload your resume in PDF or DOCX format.")
+        extracted_text = extract_text_from_image(file_bytes)
+        
+        # Validation Heuristics: check if image contains resume keywords
+        # Must contain at least two resume sections or keyword markers
+        resume_keywords = ["experience", "education", "skills", "projects", "work", "employment", "contact", "summary", "about", "profile"]
+        lower_text = extracted_text.lower()
+        matched_keywords = [kw for kw in resume_keywords if kw in lower_text]
+        
+        if len(matched_keywords) < 2 or len(extracted_text.strip()) < 30:
+            raise ValueError("The uploaded image does not appear to be a valid resume. Please upload a clear image of your resume.")
+            
+        return extracted_text
     else:
         # Fallback to UTF-8 decoding for plain text files
         try:

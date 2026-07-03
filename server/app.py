@@ -59,6 +59,8 @@ async def analyze_resume(file: UploadFile = File(...)):
             
         analysis_result = analyze_resume_text(extracted_text)
         return analysis_result
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
     except Exception as e:
         print(f"Error during analysis: {e}")
         raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")

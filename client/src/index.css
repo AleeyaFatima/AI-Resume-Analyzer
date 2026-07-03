@@ -146,7 +146,6 @@
   width: 140px;
   height: 140px;
   transform-style: preserve-3d;
-  transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .cube-face-3d {
