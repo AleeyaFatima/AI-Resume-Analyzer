@@ -5,17 +5,9 @@ const getApiBaseUrl = () => {
       return saved;
     }
     
-    // Auto-detect Render backend URL:
-    // If the frontend is hosted on 'resumeiq-frontend-xxxx.onrender.com',
-    // the backend will be on 'resumeiq-backend-xxxx.onrender.com'!
     const host = window.location.hostname;
     if (host.includes('onrender.com')) {
-      const parts = host.split('.');
-      const sub = parts[0];
-      if (sub.includes('frontend')) {
-        const backendSub = sub.replace('frontend', 'backend');
-        return `https://${backendSub}.onrender.com`;
-      }
+      return 'https://resumeiq-backend.onrender.com';
     }
   }
 
