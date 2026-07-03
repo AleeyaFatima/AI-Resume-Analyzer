@@ -241,13 +241,16 @@
 .light-mode .bg-gradient-to-r.from-cyanAccent {
   background-image: linear-gradient(to right, #8B5CF6, #C4B5FD) !important;
 }
-/* Exclude specific components that must keep their white text (like badges, buttons, etc) */
 .light-mode .bg-gradient-to-r *,
 .light-mode .bg-gradient-to-tr *,
-.light-mode button *,
 .light-mode a.bg-gradient-to-r,
 .light-mode span.bg-gradient-to-tr,
 .light-mode .rounded-full.bg-gradient-to-r {
   color: #FFFFFF !important;
+}
+
+.light-mode nav button:not(.text-white):hover {
+  color: #7C3AED !important;
+  background-color: rgba(139, 92, 246, 0.08) !important;
 }
 
