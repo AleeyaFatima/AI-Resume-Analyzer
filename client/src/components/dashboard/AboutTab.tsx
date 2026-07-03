@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Award, Code, ShieldCheck } from 'lucide-react';
+import { Sparkles, Award, Code, ShieldCheck, Mail, Phone } from 'lucide-react';
 
 export const AboutTab: React.FC = () => {
   const features = [
@@ -75,30 +75,30 @@ export const AboutTab: React.FC = () => {
 
         {/* Mission & Credits (Span 5) */}
         <div className="md:col-span-5 flex flex-col gap-6">
-          {/* Mission */}
-          <div className="glass-card rounded-glass-card p-6 space-y-3 flex-1 flex flex-col justify-center">
-            <h4 className="text-xs uppercase font-extrabold tracking-widest text-primaryPurple font-heading">Our Mission</h4>
-            <blockquote className="text-sm text-textSecondary italic border-l-2 border-primaryPurple pl-3 leading-relaxed">
-              "Our mission is to help students and professionals create stronger resumes using the power of Artificial Intelligence, making career preparation simpler, smarter, and more accessible."
-            </blockquote>
-          </div>
-
-          {/* Credits */}
-          <div className="glass-card rounded-glass-card p-6 space-y-4">
-            <h4 className="text-xs uppercase font-extrabold tracking-widest text-secondaryPurple font-heading">Credits & Development</h4>
+          {/* Developer Bio */}
+          <div className="glass-card rounded-glass-card p-6 space-y-4 flex flex-col justify-center">
+            <h4 className="text-xs uppercase font-extrabold tracking-widest text-primaryPurple font-heading">Developer Bio</h4>
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-gradient-to-r from-primaryPurple to-secondaryPurple flex items-center justify-center font-heading font-extrabold text-white text-lg shadow-glow-purple">
                 AF
               </div>
               <div>
                 <h5 className="font-heading font-bold text-sm text-white">Aleeya Fatima</h5>
-                <p className="text-xs text-secondaryPurple font-mono mt-0.5">BS Artificial Intelligence</p>
+                <p className="text-[10px] text-secondaryPurple font-mono font-bold mt-0.5">BS Artificial Intelligence Student</p>
               </div>
             </div>
-            <div className="flex gap-2 text-[10px] text-textSecondary font-semibold pt-1">
-              <span className="px-2 py-0.5 bg-white bg-opacity-5 rounded border border-white border-opacity-5">Developer</span>
-              <span className="px-2 py-0.5 bg-white bg-opacity-5 rounded border border-white border-opacity-5">Designer</span>
-              <span className="px-2 py-0.5 bg-white bg-opacity-5 rounded border border-white border-opacity-5">AI Architect</span>
+            <p className="text-xs text-textSecondary leading-relaxed">
+              Passionate about Artificial Intelligence, Machine Learning, and building practical, user-centric AI-powered applications that solve real-world problems.
+            </p>
+            <div className="border-t border-white border-opacity-5 pt-3 space-y-2 text-xs text-textSecondary">
+              <div className="flex items-center gap-2">
+                <Mail size={12} className="text-primaryPurple" />
+                <a href="mailto:aleeyaali567@gmail.com" className="hover:text-white hover:underline transition-all">aleeyaali567@gmail.com</a>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone size={12} className="text-secondaryPurple" />
+                <a href="tel:+923016668865" className="hover:text-white hover:underline transition-all">+92 301 6668865</a>
+              </div>
             </div>
           </div>
         </div>

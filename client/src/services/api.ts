@@ -59,6 +59,25 @@ export interface CoachResponse {
   expected_difficulty: string;
 }
 
+async function parseResponseJson<T>(response: Response, defaultError: string): Promise<T> {
+  if (!response.ok) {
+    const text = await response.text().catch(() => '');
+    let msg = defaultError;
+    try {
+      const json = JSON.parse(text);
+      msg = json.detail || json.message || msg;
+    } catch (e) {
+      if (text) {
+        msg = `${defaultError} (${response.status}): ${text.slice(0, 80)}`;
+      } else {
+        msg = `${defaultError} (${response.status})`;
+      }
+    }
+    throw new Error(msg);
+  }
+  return response.json();
+}
+
 export async function analyzeResume(file: File): Promise<AnalysisResponse> {
   const formData = new FormData();
   formData.append('file', file);
@@ -68,12 +87,7 @@ export async function analyzeResume(file: File): Promise<AnalysisResponse> {
     body: formData,
   });
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({ detail: 'Failed to analyze resume.' }));
-    throw new Error(errorData.detail || 'Failed to analyze resume.');
-  }
-
-  return response.json();
+  return parseResponseJson<AnalysisResponse>(response, 'Failed to analyze resume.');
 }
 
 export async function compareResumeWithJob(
@@ -91,12 +105,7 @@ export async function compareResumeWithJob(
     }),
   });
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({ detail: 'Failed to compare with job description.' }));
-    throw new Error(errorData.detail || 'Failed to compare with job description.');
-  }
-
-  return response.json();
+  return parseResponseJson<JobMatchResponse>(response, 'Failed to compare with job description.');
 }
 
 export async function getInterviewPrep(
@@ -110,10 +119,5 @@ export async function getInterviewPrep(
     body: JSON.stringify({ skills }),
   });
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({ detail: 'Failed to generate interview prep materials.' }));
-    throw new Error(errorData.detail || 'Failed to generate interview prep materials.');
-  }
-
-  return response.json();
+  return parseResponseJson<CoachResponse>(response, 'Failed to generate interview prep materials.');
 }

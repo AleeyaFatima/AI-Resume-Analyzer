@@ -12,9 +12,11 @@ import {
   Code,
   Briefcase,
   HelpCircle,
-  ChevronDown
+  ChevronDown,
+  Download
 } from 'lucide-react';
 import { useAnalysis } from '../../context/AnalysisContext';
+import { downloadPdfReport } from '../../services/pdfReport';
 
 // Animated CountUp Component using Space Grotesk
 const AnimatedCounter: React.FC<{ value: number; duration?: number; suffix?: string }> = ({ 
@@ -58,7 +60,8 @@ export const OverviewTab: React.FC = () => {
     coachData,
     compareResume, 
     generatePrep, 
-    loading
+    loading,
+    resumeFileName
   } = useAnalysis();
 
   const [greeting, setGreeting] = useState('Welcome Back');
@@ -99,11 +102,11 @@ export const OverviewTab: React.FC = () => {
   // Calculate statistics
   const skillsCount = Object.values(analysisData.skills).reduce((acc, curr) => acc + curr.length, 0);
   const sectionsCount = Object.values(analysisData.sections_found).filter(Boolean).length;
-  const formattingDeductions = analysisData.grammar_issues.length;
-
   const keywordOptimizationScore = Math.min(100, skillsCount * 7 + 25);
-  const grammarScore = Math.max(30, 100 - (formattingDeductions * 6));
   const formattingScore = Math.min(100, sectionsCount * 20);
+
+  const experienceScore = analysisData.sections_found.experience ? 92 : 35;
+  const educationScore = analysisData.sections_found.education ? 88 : 40;
 
   const stats = [
     {
@@ -112,71 +115,62 @@ export const OverviewTab: React.FC = () => {
       suffix: "%",
       desc: "Formatting & structure check",
       icon: <FileText size={18} className="text-primaryPurple" />,
-      color: "bg-primaryPurple",
-      glowColor: "shadow-[0_0_10px_rgba(124,58,237,0.3)]",
+      colorClass: "text-primaryPurple",
+      ringValue: analysisData.resume_score
     },
     {
-      title: "ATS Compatibility",
+      title: "ATS Score",
       value: analysisData.ats_score,
       suffix: "%",
-      desc: "Standard bot compatibility ratio",
+      desc: "Bot parsing efficiency",
       icon: <Cpu size={18} className="text-secondaryPurple" />,
-      color: "bg-secondaryPurple",
-      glowColor: "shadow-[0_0_10px_rgba(168,85,247,0.3)]",
+      colorClass: "text-secondaryPurple",
+      ringValue: analysisData.ats_score
     },
     {
-      title: "Overall Rating",
-      value: analysisData.interview_readiness,
-      suffix: "%",
-      desc: "Interview readiness estimate",
-      icon: <Award size={18} className="text-[#10B981]" />,
-      color: "bg-[#10B981]",
-      glowColor: "shadow-[0_0_10px_rgba(16,185,129,0.3)]",
-    },
-    {
-      title: "Skills Matched",
+      title: "Skills Match",
       value: skillsCount,
       suffix: "",
-      desc: "Total taxonomy keywords found",
-      icon: <Code size={18} className="text-primaryPurple" />,
-      color: "bg-primaryPurple",
-      glowColor: "shadow-[0_0_10px_rgba(124,58,237,0.3)]",
+      desc: "Key industry competencies",
+      icon: <Code size={18} className="text-[#10B981]" />,
+      colorClass: "text-[#10B981]",
+      ringValue: Math.min(100, (skillsCount / 20) * 100)
     },
     {
-      title: "Missing Skills",
-      value: analysisData.weaknesses.length,
-      suffix: "",
-      desc: "Identified competency gaps",
-      icon: <AlertCircle size={18} className="text-errorCoral" />,
-      color: "bg-errorCoral",
-      glowColor: "shadow-[0_0_10px_rgba(239,68,68,0.3)]",
-    },
-    {
-      title: "Grammar Score",
-      value: grammarScore,
+      title: "Keyword Match",
+      value: keywordOptimizationScore,
       suffix: "%",
-      desc: "Structure double spacing checklist",
-      icon: <Sparkles size={18} className="text-secondaryPurple" />,
-      color: "bg-secondaryPurple",
-      glowColor: "shadow-[0_0_10px_rgba(168,85,247,0.3)]",
+      desc: "Saturated vocabulary match",
+      icon: <Sparkles size={18} className="text-primaryPurple" />,
+      colorClass: "text-primaryPurple",
+      ringValue: keywordOptimizationScore
     },
     {
       title: "Formatting Score",
       value: formattingScore,
       suffix: "%",
-      desc: "Layout section presence rating",
-      icon: <Terminal size={18} className="text-[#10B981]" />,
-      color: "bg-[#10B981]",
-      glowColor: "shadow-[0_0_10px_rgba(16,185,129,0.3)]",
+      desc: "Standard layout alignments",
+      icon: <Terminal size={18} className="text-secondaryPurple" />,
+      colorClass: "text-secondaryPurple",
+      ringValue: formattingScore
     },
     {
-      title: "Keyword Optimization",
-      value: keywordOptimizationScore,
+      title: "Experience Score",
+      value: experienceScore,
       suffix: "%",
-      desc: "Vocabulary density index",
-      icon: <Code size={18} className="text-primaryPurple" />,
-      color: "bg-primaryPurple",
-      glowColor: "shadow-[0_0_10px_rgba(124,58,237,0.3)]",
+      desc: "Career progression tracking",
+      icon: <Briefcase size={18} className="text-[#10B981]" />,
+      colorClass: "text-[#10B981]",
+      ringValue: experienceScore
+    },
+    {
+      title: "Education Score",
+      value: educationScore,
+      suffix: "%",
+      desc: "Degree listing presence",
+      icon: <Award size={18} className="text-primaryPurple" />,
+      colorClass: "text-primaryPurple",
+      ringValue: educationScore
     }
   ];
 
@@ -232,38 +226,74 @@ export const OverviewTab: React.FC = () => {
           </p>
         </div>
 
-        {/* Small floating sphere */}
-        <div className="relative shrink-0 flex items-center justify-center select-none w-20 h-20">
-          <div className="w-14 h-14 sphere-gradient rounded-full animate-float-slow shadow-glow-purple/20" />
+        {/* Actions / Floating Sphere Container */}
+        <div className="flex flex-col sm:flex-row items-center gap-4 shrink-0 z-10">
+          <button
+            onClick={() => downloadPdfReport(analysisData, resumeFileName || 'Resume.pdf')}
+            className="flex items-center gap-2 bg-gradient-to-r from-primaryPurple to-secondaryPurple hover:from-hoverPurple hover:to-secondaryPurple text-white px-5 py-3 rounded-full text-xs font-bold transition-all shadow-glow-purple duration-300 transform hover:-translate-y-0.5"
+            title="Download PDF Audit Report"
+          >
+            <Download size={14} />
+            <span>Download PDF Report</span>
+          </button>
+          
+          <div className="relative flex items-center justify-center select-none w-20 h-20">
+            <div className="w-14 h-14 sphere-gradient rounded-full animate-float-slow shadow-glow-purple/20" />
+          </div>
         </div>
       </div>
 
-      {/* 8 Stats Dashboard Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      {/* 7 Premium Stats Dashboard Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {stats.map((stat, idx) => (
           <div 
             key={idx} 
-            className="glass-card rounded-glass-card p-5 flex flex-col justify-between space-y-3 relative group hover:-translate-y-1.5 hover:border-primaryPurple hover:border-opacity-30 hover:shadow-glow-purple transition-all duration-300"
+            className="glass-card rounded-glass-card p-6 flex flex-col justify-between space-y-4 relative group hover:-translate-y-1.5 hover:border-primaryPurple hover:border-opacity-30 hover:shadow-glow-purple transition-all duration-300"
           >
             <div className="flex items-center justify-between">
-              <span className="text-[9px] uppercase font-bold tracking-widest text-textSecondary font-heading">{stat.title}</span>
-              <div className="w-7 h-7 rounded-lg bg-white bg-opacity-[0.03] border border-white border-opacity-5 flex items-center justify-center">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-textSecondary font-heading">{stat.title}</span>
+              <div className="w-8 h-8 rounded-xl bg-white bg-opacity-[0.03] border border-white border-opacity-5 flex items-center justify-center">
                 {stat.icon}
               </div>
             </div>
 
-            <div className="py-1">
-              <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-            </div>
-
-            <div className="space-y-2">
-              <div className="w-full bg-white bg-opacity-5 rounded-full h-1">
-                <div 
-                  className={`${stat.color} h-1 rounded-full ${stat.glowColor}`} 
-                  style={{ width: `${Math.min(100, stat.title.includes("Matched") || stat.title.includes("Missing") ? stat.value * 8 : stat.value)}%` }}
-                />
+            <div className="flex justify-between items-center gap-4">
+              <div>
+                <div className="py-1">
+                  <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+                </div>
+                <p className="text-[10px] text-textMuted mt-1 leading-normal">{stat.desc}</p>
               </div>
-              <p className="text-[9px] text-textSecondary truncate">{stat.desc}</p>
+              
+              {/* Circular Progress Ring */}
+              <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
+                <svg className="transform -rotate-90" width="48" height="48">
+                  <circle
+                    className="text-white text-opacity-5"
+                    strokeWidth="3.5"
+                    stroke="currentColor"
+                    fill="transparent"
+                    r="20"
+                    cx="24"
+                    cy="24"
+                  />
+                  <circle
+                    className={`${stat.colorClass} transition-all duration-1000 ease-out`}
+                    strokeWidth="3.5"
+                    strokeDasharray={125.6}
+                    strokeDashoffset={125.6 - (Math.min(100, stat.ringValue) / 100) * 125.6}
+                    strokeLinecap="round"
+                    stroke="currentColor"
+                    fill="transparent"
+                    r="20"
+                    cx="24"
+                    cy="24"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center text-[9px] font-mono font-bold text-white">
+                  {Math.round(stat.ringValue)}%
+                </div>
+              </div>
             </div>
           </div>
         ))}

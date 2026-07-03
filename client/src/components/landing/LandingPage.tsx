@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Upload, ChevronDown, Check, X, Shield, FileText, Cpu, CheckCircle, Sparkles } from 'lucide-react';
 import { useAnalysis } from '../../context/AnalysisContext';
+import LoadingStages from '../ui/LoadingStages';
 
 export const LandingPage: React.FC = () => {
   const { uploadAndAnalyze, loading, error } = useAnalysis();
@@ -144,15 +145,7 @@ export const LandingPage: React.FC = () => {
             />
             
             {loading ? (
-              <div className="flex flex-col items-center justify-center space-y-4">
-                <div className="w-12 h-12 border-4 border-cyanAccent border-t-transparent rounded-full animate-spin"></div>
-                <p className="font-heading font-bold text-lg text-cyanAccent animate-pulse">
-                  AI is reading your resume...
-                </p>
-                <p className="text-sm text-secText">
-                  Checking formats, extracting skills, grading ATS score
-                </p>
-              </div>
+              <LoadingStages />
             ) : (
               <div className="flex flex-col items-center justify-center space-y-6 text-center z-10">
                 <div className="w-16 h-16 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-2xl flex items-center justify-center text-cyanAccent animate-float-slow">

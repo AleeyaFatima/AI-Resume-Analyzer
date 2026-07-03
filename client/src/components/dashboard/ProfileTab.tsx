@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { User, Mail, Award, Clock, FileCheck, CheckCircle2 } from 'lucide-react';
+import { User, Mail, Award, Clock, FileCheck, CheckCircle2, Phone } from 'lucide-react';
 import { useAnalysis } from '../../context/AnalysisContext';
 
 export const ProfileTab: React.FC = () => {
@@ -31,17 +31,21 @@ export const ProfileTab: React.FC = () => {
 
         <div>
           <h3 className="text-xl font-heading font-extrabold text-white">Aleeya Fatima</h3>
-          <p className="text-xs text-secondaryPurple font-mono mt-0.5">BS Artificial Intelligence</p>
+          <p className="text-xs text-secondaryPurple font-mono mt-0.5">BS Artificial Intelligence Student</p>
         </div>
 
         <div className="w-full border-t border-white border-opacity-5 pt-4 space-y-3">
           <div className="flex items-center gap-2.5 text-xs text-textSecondary justify-center">
             <Mail size={14} className="text-primaryPurple" />
-            <span>aleeya.fatima@example.com</span>
+            <a href="mailto:aleeyaali567@gmail.com" className="hover:text-primaryPurple transition-colors">aleeyaali567@gmail.com</a>
           </div>
           <div className="flex items-center gap-2.5 text-xs text-textSecondary justify-center">
-            <User size={14} className="text-secondaryPurple" />
-            <span>System Administrator</span>
+            <Phone size={14} className="text-secondaryPurple" />
+            <a href="tel:+923016668865" className="hover:text-secondaryPurple transition-colors">+92 301 6668865</a>
+          </div>
+          <div className="flex items-center gap-2.5 text-xs text-textSecondary justify-center">
+            <User size={14} className="text-primaryPurple" />
+            <span>Developer Profile</span>
           </div>
         </div>
       </div>

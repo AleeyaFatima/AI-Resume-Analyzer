@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Upload, FileText, Shield, Sparkles, CheckCircle2 } from 'lucide-react';
 import { useAnalysis } from '../../context/AnalysisContext';
 import { Interactive3DObject } from '../ui/Interactive3DObject';
+import LoadingStages from '../ui/LoadingStages';
 
 export const HomeTab: React.FC = () => {
   const { uploadAndAnalyze, loading, error, resumeFileName, resumeFileSize, setActiveTab } = useAnalysis();
@@ -103,15 +104,7 @@ export const HomeTab: React.FC = () => {
             />
             
             {loading ? (
-              <div className="flex flex-col items-center justify-center space-y-4">
-                <div className="w-12 h-12 border-4 border-primaryPurple border-t-transparent rounded-full animate-spin"></div>
-                <p className="font-heading font-bold text-lg text-primaryPurple animate-pulse">
-                  AI is reading your resume...
-                </p>
-                <p className="text-sm text-textSecondary">
-                  Checking formats, extracting skills, grading ATS score
-                </p>
-              </div>
+              <LoadingStages />
             ) : resumeFileName ? (
               <div className="flex flex-col items-center justify-center space-y-6 text-center z-10">
                 <div className="w-16 h-16 bg-primaryPurple bg-opacity-10 border border-primaryPurple border-opacity-20 rounded-2xl flex items-center justify-center text-successGreen">

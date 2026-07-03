@@ -10,7 +10,8 @@ import {
   Sparkles, 
   Compass,
   Scroll,
-  FileCheck
+  FileCheck,
+  ArrowRight
 } from 'lucide-react';
 import { useAnalysis } from '../../context/AnalysisContext';
 
@@ -141,30 +142,57 @@ export const AnalysisTab: React.FC = () => {
         {/* Right Column (Span 8) */}
         <div className="lg:col-span-8 space-y-6">
           
-          {/* Grid: Strengths & Weaknesses (2 Premium Cards) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Strengths Card */}
-            <div className="glass-card rounded-glass-card p-6 space-y-4">
+          {/* Overall AI Summary */}
+          <div className="glass-card rounded-glass-card p-6 border-l-4 border-primaryPurple space-y-3">
+            <div className="flex justify-between items-center">
               <h3 className="text-md font-heading font-bold text-white flex items-center gap-2">
-                <CheckCircle className="text-[#10B981]" size={16} />
-                <span>Strengths</span>
+                <Sparkles className="text-secondaryPurple" size={18} />
+                <span>Overall AI Summary Assessment</span>
               </h3>
+              <span className="text-[9px] font-mono font-bold bg-primaryPurple bg-opacity-10 text-secondaryPurple px-2 py-0.5 rounded border border-primaryPurple border-opacity-20 uppercase">
+                Executive Brief
+              </span>
+            </div>
+            <p className="text-xs text-textSecondary leading-relaxed">
+              Based on the semantic analysis, your resume scores <strong>{analysisData.resume_score}%</strong>. It demonstrates strong keyword alignment across the taxonomy, but can be improved by addressing the formatting checklist and integrating missing DevOps and cloud metrics.
+            </p>
+          </div>
+
+          {/* Grid of AI Feedback Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            {/* Card 1: Strengths */}
+            <div className="glass-card rounded-glass-card p-6 border-l-4 border-successGreen space-y-4">
+              <div className="flex justify-between items-start">
+                <h3 className="text-sm font-heading font-bold text-white flex items-center gap-2">
+                  <CheckCircle className="text-successGreen" size={16} />
+                  <span>Strengths</span>
+                </h3>
+                <span className="text-[9px] font-mono font-bold bg-successGreen bg-opacity-10 text-successGreen px-2 py-0.5 rounded border border-successGreen border-opacity-20 uppercase">
+                  Verified
+                </span>
+              </div>
               <ul className="space-y-2.5">
                 {analysisData.strengths.map((str, idx) => (
                   <li key={idx} className="flex items-start gap-2 text-xs text-textSecondary leading-relaxed">
-                    <span className="text-[#10B981] font-bold shrink-0 mt-0.5">•</span>
+                    <span className="text-successGreen font-bold shrink-0 mt-0.5">•</span>
                     <span>{str}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Weaknesses / Missing Keywords Card */}
-            <div className="glass-card rounded-glass-card p-6 space-y-4">
-              <h3 className="text-md font-heading font-bold text-white flex items-center gap-2">
-                <XCircle className="text-errorCoral" size={16} />
-                <span>Weaknesses & Missing Keywords</span>
-              </h3>
+            {/* Card 2: Weaknesses */}
+            <div className="glass-card rounded-glass-card p-6 border-l-4 border-errorCoral space-y-4">
+              <div className="flex justify-between items-start">
+                <h3 className="text-sm font-heading font-bold text-white flex items-center gap-2">
+                  <XCircle className="text-errorCoral" size={16} />
+                  <span>Weaknesses & Gaps</span>
+                </h3>
+                <span className="text-[9px] font-mono font-bold bg-errorCoral bg-opacity-10 text-errorCoral px-2 py-0.5 rounded border border-errorCoral border-opacity-20 uppercase">
+                  Critique
+                </span>
+              </div>
               <ul className="space-y-2.5">
                 {analysisData.weaknesses.map((weak, idx) => (
                   <li key={idx} className="flex items-start gap-2 text-xs text-textSecondary leading-relaxed">
@@ -174,71 +202,104 @@ export const AnalysisTab: React.FC = () => {
                 ))}
               </ul>
             </div>
-          </div>
 
-          {/* Suggestions Card */}
-          <div className="glass-card rounded-glass-card p-6 space-y-4">
-            <h3 className="text-md font-heading font-bold text-white flex items-center gap-2">
-              <Compass className="text-primaryPurple" size={16} />
-              <span>Improvement Suggestions</span>
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {analysisData.recommendations.map((rec, idx) => (
-                <div key={idx} className="p-3.5 bg-[#0B0B17] bg-opacity-40 border border-primaryPurple border-opacity-10 rounded-2xl flex items-start gap-2.5 text-xs text-textSecondary leading-relaxed">
-                  <span className="text-secondaryPurple font-mono font-bold">{idx + 1}.</span>
-                  <span>{rec}</span>
+            {/* Card 3: Missing Skills */}
+            <div className="glass-card rounded-glass-card p-6 border-l-4 border-warningAmber space-y-4">
+              <div className="flex justify-between items-start">
+                <h3 className="text-sm font-heading font-bold text-white flex items-center gap-2">
+                  <AlertTriangle className="text-warningAmber" size={16} />
+                  <span>Missing Competency Skills</span>
+                </h3>
+                <span className="text-[9px] font-mono font-bold bg-warningAmber bg-opacity-10 text-warningAmber px-2 py-0.5 rounded border border-warningAmber border-opacity-20 uppercase">
+                  Core Gap
+                </span>
+              </div>
+              <p className="text-xs text-textSecondary leading-relaxed">
+                We noted missing records for crucial stack dependencies:
+              </p>
+              <div className="flex flex-wrap gap-1.5 mt-2">
+                {analysisData.weaknesses.slice(0, 3).map((w, idx) => (
+                  <span key={idx} className="text-[10px] font-mono px-2 py-0.5 bg-[#0B0B17] bg-opacity-50 border border-warningAmber border-opacity-20 text-warningAmber rounded-md">
+                    {w.replace(/missing/i, '').replace(/no references to/i, '').trim() || 'Additional Stack'}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Card 4: Action Verbs */}
+            <div className="glass-card rounded-glass-card p-6 border-l-4 border-primaryPurple space-y-4">
+              <div className="flex justify-between items-start">
+                <h3 className="text-sm font-heading font-bold text-white flex items-center gap-2">
+                  <Compass className="text-secondaryPurple" size={16} />
+                  <span>Action Verbs Upgrade</span>
+                </h3>
+                <span className="text-[9px] font-mono font-bold bg-primaryPurple bg-opacity-10 text-secondaryPurple px-2 py-0.5 rounded border border-primaryPurple border-opacity-20 uppercase">
+                  Style
+                </span>
+              </div>
+              <p className="text-xs text-textSecondary leading-relaxed">
+                Replace generic descriptors with dynamic action-oriented verbs to boost applicant metrics:
+              </p>
+              <div className="grid grid-cols-2 gap-2 text-[10px] font-mono text-textSecondary">
+                <div className="bg-[#0B0B17] p-1.5 rounded border border-white border-opacity-5 text-center">
+                  <span className="text-errorCoral line-through">Led</span> <ArrowRight size={10} className="inline mx-1 text-textMuted"/> <span className="text-successGreen font-bold">Spearheaded</span>
                 </div>
-              ))}
+                <div className="bg-[#0B0B17] p-1.5 rounded border border-white border-opacity-5 text-center">
+                  <span className="text-errorCoral line-through">Built</span> <ArrowRight size={10} className="inline mx-1 text-textMuted"/> <span className="text-successGreen font-bold">Engineered</span>
+                </div>
+              </div>
             </div>
-          </div>
 
-          {/* Formatting Issues Checklist Card */}
-          <div className="glass-card rounded-glass-card p-6 space-y-4">
-            <h3 className="text-md font-heading font-bold text-white flex items-center gap-2">
-              <FileText className="text-secondaryPurple" size={16} />
-              <span>Formatting Issues</span>
-            </h3>
-            <div className="space-y-2">
-              {formattingIssues.length === 0 ? (
-                <p className="text-xs text-[#10B981] bg-[#10B981] bg-opacity-5 p-3 rounded-xl border border-[#10B981] border-opacity-15">
-                  ✓ Formatting check passed: No double spacing or structure alerts detected.
-                </p>
-              ) : (
-                formattingIssues.map((issue, idx) => (
-                  <div key={idx} className="p-3 bg-[#0B0B17] bg-opacity-40 border border-errorCoral border-opacity-10 rounded-xl flex items-start gap-2.5 text-xs text-textSecondary">
-                    <AlertTriangle size={14} className="text-errorCoral shrink-0 mt-0.5" />
-                    <div>
-                      <span className="font-heading font-bold text-[10px] text-white uppercase block mb-0.5">{issue.type}</span>
-                      <p>{issue.message}</p>
-                    </div>
-                  </div>
-                ))
-              )}
+            {/* Card 5: Formatting Issues */}
+            <div className="glass-card rounded-glass-card p-6 border-l-4 border-secondaryPurple space-y-4">
+              <div className="flex justify-between items-start">
+                <h3 className="text-sm font-heading font-bold text-white flex items-center gap-2">
+                  <FileText className="text-secondaryPurple" size={16} />
+                  <span>Formatting Issues</span>
+                </h3>
+                <span className="text-[9px] font-mono font-bold bg-primaryPurple bg-opacity-10 text-secondaryPurple px-2 py-0.5 rounded border border-primaryPurple border-opacity-20 uppercase">
+                  Layout
+                </span>
+              </div>
+              <div className="space-y-2">
+                {formattingIssues.length === 0 ? (
+                  <p className="text-xs text-successGreen bg-successGreen bg-opacity-5 p-2 rounded-xl border border-successGreen border-opacity-15">
+                    ✓ Formatting checks passed successfully.
+                  </p>
+                ) : (
+                  formattingIssues.slice(0, 2).map((issue, idx) => (
+                    <p key={idx} className="text-xs text-textSecondary leading-relaxed">
+                      • {issue.message}
+                    </p>
+                  ))
+                )}
+              </div>
             </div>
-          </div>
 
-          {/* Grammar Suggestions Card */}
-          <div className="glass-card rounded-glass-card p-6 space-y-4">
-            <h3 className="text-md font-heading font-bold text-white flex items-center gap-2">
-              <Sparkles className="text-primaryPurple" size={16} />
-              <span>Grammar & Writing Suggestions</span>
-            </h3>
-            <div className="space-y-2">
-              {grammarSuggestions.length === 0 ? (
-                <p className="text-xs text-[#10B981] bg-[#10B981] bg-opacity-5 p-3 rounded-xl border border-[#10B981] border-opacity-15">
-                  ✓ Grammar check passed: No buzzword density or contact details issues found.
-                </p>
-              ) : (
-                grammarSuggestions.map((issue, idx) => (
-                  <div key={idx} className="p-3 bg-[#0B0B17] bg-opacity-40 border border-primaryPurple border-opacity-10 rounded-xl flex items-start gap-2.5 text-xs text-textSecondary">
-                    <AlertTriangle size={14} className="text-secondaryPurple shrink-0 mt-0.5" />
-                    <div>
-                      <span className="font-heading font-bold text-[10px] text-white uppercase block mb-0.5">{issue.type}</span>
-                      <p>{issue.message}</p>
-                    </div>
-                  </div>
-                ))
-              )}
+            {/* Card 6: Grammar Suggestions */}
+            <div className="glass-card rounded-glass-card p-6 border-l-4 border-successGreen space-y-4">
+              <div className="flex justify-between items-start">
+                <h3 className="text-sm font-heading font-bold text-white flex items-center gap-2">
+                  <Sparkles className="text-successGreen" size={16} />
+                  <span>Grammar Suggestions</span>
+                </h3>
+                <span className="text-[9px] font-mono font-bold bg-successGreen bg-opacity-10 text-successGreen px-2 py-0.5 rounded border border-successGreen border-opacity-20 uppercase">
+                  Grammar
+                </span>
+              </div>
+              <div className="space-y-2">
+                {grammarSuggestions.length === 0 ? (
+                  <p className="text-xs text-successGreen bg-successGreen bg-opacity-5 p-2 rounded-xl border border-successGreen border-opacity-15">
+                    ✓ Grammar checks passed successfully.
+                  </p>
+                ) : (
+                  grammarSuggestions.slice(0, 2).map((issue, idx) => (
+                    <p key={idx} className="text-xs text-textSecondary leading-relaxed">
+                      • {issue.message}
+                    </p>
+                  ))
+                )}
+              </div>
             </div>
           </div>
 
@@ -251,7 +312,7 @@ export const AnalysisTab: React.FC = () => {
             <p className="text-xs text-textSecondary leading-normal">
               Scrollable raw text extracted from your document profile by the PDF/DOCX parser backend.
             </p>
-            <div className="bg-[#0B0B17] border border-primaryPurple border-opacity-15 rounded-2xl p-4 max-h-[250px] overflow-y-auto font-mono text-[10px] leading-relaxed text-textSecondary text-left select-text whitespace-pre-wrap">
+            <div className="bg-[#0B0B17] border border-primaryPurple border-opacity-15 rounded-2xl p-4 max-h-[200px] overflow-y-auto font-mono text-[10px] leading-relaxed text-textSecondary text-left select-text whitespace-pre-wrap">
               {analysisData.raw_text}
             </div>
           </div>

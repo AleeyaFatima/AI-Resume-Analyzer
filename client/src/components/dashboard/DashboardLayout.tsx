@@ -31,6 +31,7 @@ import HistoryTab from './HistoryTab';
 import AboutTab from './AboutTab';
 import SettingsTab from './SettingsTab';
 import ProfileTab from './ProfileTab';
+import ComparisonTab from './ComparisonTab';
 
 export const DashboardLayout: React.FC = () => {
   const { 
@@ -45,12 +46,15 @@ export const DashboardLayout: React.FC = () => {
   } = useAnalysis();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem('resumeiq_theme') !== 'light';
+  });
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   const navigationItems = [
     { id: 'home' as DashboardTab, name: 'Home', icon: <Home size={15} /> },
     { id: 'resume-analyzer' as DashboardTab, name: 'Resume Analyzer', icon: <FileText size={15} /> },
+    { id: 'comparison' as DashboardTab, name: 'Compare', icon: <Sparkles size={15} /> },
     { id: 'dashboard' as DashboardTab, name: 'Dashboard', icon: <LayoutDashboard size={15} /> },
     { id: 'analytics' as DashboardTab, name: 'Analytics', icon: <BarChart3 size={15} /> },
     { id: 'history' as DashboardTab, name: 'History', icon: <Clock size={15} /> },
@@ -65,6 +69,8 @@ export const DashboardLayout: React.FC = () => {
         return <HomeTab />;
       case 'resume-analyzer':
         return <AnalysisTab />;
+      case 'comparison':
+        return <ComparisonTab />;
       case 'dashboard':
         return <OverviewTab />;
       case 'analytics':
@@ -83,12 +89,14 @@ export const DashboardLayout: React.FC = () => {
   };
 
   const handleToggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    addToast(darkMode ? 'Light mode is not supported by theme palette' : 'Dark mode active', 'info');
+    const nextDark = !darkMode;
+    setDarkMode(nextDark);
+    localStorage.setItem('resumeiq_theme', nextDark ? 'dark' : 'light');
+    addToast(nextDark ? 'Dark mode active' : 'Light mode active', 'info');
   };
 
   return (
-    <div className="min-h-screen bg-bgDark text-white flex flex-col font-body relative overflow-hidden">
+    <div className={`min-h-screen ${darkMode ? 'bg-bgDark text-white' : 'bg-gray-100 text-gray-800 light-mode'} flex flex-col font-body relative overflow-hidden transition-colors duration-300`}>
       {/* Background Aurora Blobs */}
       <div className="aurora-bg">
         <div className="aurora-blob aurora-blob-1"></div>
@@ -255,7 +263,7 @@ export const DashboardLayout: React.FC = () => {
                 </div>
                 <div>
                   <h5 className="font-heading font-bold text-xs text-white">Aleeya Fatima</h5>
-                  <p className="text-[10px] text-textSecondary">aleeya.fatima@example.com</p>
+                  <p className="text-[10px] text-textSecondary font-mono">aleeyaali567@gmail.com</p>
                 </div>
               </div>
               
@@ -349,19 +357,47 @@ export const DashboardLayout: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-white border-opacity-5 bg-[#181828] bg-opacity-40 py-8 text-center text-xs text-textSecondary mt-12 z-10">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-gradient-to-tr from-primaryPurple to-secondaryPurple rounded-lg text-white font-heading font-black text-xs flex items-center justify-center select-none shadow-glow-purple">
-              IQ
+      <footer className="border-t border-white border-opacity-5 bg-[#181828] bg-opacity-40 py-12 text-xs text-textSecondary mt-12 z-10">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 bg-gradient-to-tr from-primaryPurple to-secondaryPurple rounded-lg text-white font-heading font-black text-xs flex items-center justify-center select-none shadow-glow-purple">
+                IQ
+              </div>
+              <span className="font-heading font-bold text-sm tracking-tight text-white select-none">
+                Resume<span className="text-secondaryPurple font-extrabold">IQ</span>
+              </span>
             </div>
-            <span className="font-heading font-semibold text-xs tracking-tight text-white select-none">
-              Developed by Aleeya Fatima
-            </span>
+            <p className="text-[11px] leading-relaxed text-textMuted max-w-sm">
+              An intelligent resume analysis and career optimization platform designed to align resumes with ATS guidelines and recruitments standard.
+            </p>
+            <span className="text-[10px] text-textMuted mt-1">Version 2.0.0</span>
           </div>
-          <div className="flex gap-6 font-semibold">
-            <span>ResumeIQ AI © 2026</span>
-            <span>Built with Artificial Intelligence</span>
+
+          <div className="flex flex-col gap-3">
+            <h5 className="font-heading font-bold text-white uppercase tracking-wider text-[10px]">Developer</h5>
+            <div className="space-y-1.5 text-textSecondary">
+              <p className="font-semibold text-white">Aleeya Fatima</p>
+              <p className="text-[11px] text-textMuted">BS Artificial Intelligence Student</p>
+              <div className="flex flex-col gap-1 mt-2 text-[11px]">
+                <a href="mailto:aleeyaali567@gmail.com" className="hover:text-primaryPurple transition-colors">Email: aleeyaali567@gmail.com</a>
+                <a href="tel:+923016668865" className="hover:text-secondaryPurple transition-colors">Phone: +92 301 6668865</a>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <h5 className="font-heading font-bold text-white uppercase tracking-wider text-[10px]">Links & Socials</h5>
+            <div className="flex flex-wrap gap-x-4 gap-y-2 text-[11px]">
+              <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub</a>
+              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
+              <a href="#" className="hover:text-white transition-colors">Documentation</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setActiveTab('about'); }} className="hover:text-white transition-colors">About Project</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setActiveTab('profile'); }} className="hover:text-white transition-colors">Contact</a>
+            </div>
+            <p className="text-[10px] text-textMuted mt-4">
+              ResumeIQ AI © 2026. Built with Artificial Intelligence. All rights reserved.
+            </p>
           </div>
         </div>
       </footer>

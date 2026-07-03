@@ -8,7 +8,7 @@ import {
   type CoachResponse 
 } from '../services/api';
 
-export type DashboardTab = 'home' | 'resume-analyzer' | 'dashboard' | 'analytics' | 'history' | 'about' | 'settings' | 'profile';
+export type DashboardTab = 'home' | 'resume-analyzer' | 'dashboard' | 'analytics' | 'history' | 'about' | 'settings' | 'profile' | 'comparison';
 
 export interface Toast {
   id: string;
