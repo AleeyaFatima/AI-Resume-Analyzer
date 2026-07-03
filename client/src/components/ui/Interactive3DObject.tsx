@@ -146,7 +146,8 @@ export const Interactive3DObject: React.FC = () => {
         }}
       >
         {/* Continuous GPU-Accelerated Rotation Wrapper */}
-        <motion.div
+        <div
+          className="animate-spin-y"
           style={{
             transformStyle: 'preserve-3d',
             width: '100%',
@@ -154,14 +155,6 @@ export const Interactive3DObject: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-          }}
-          animate={{
-            rotateY: 360,
-          }}
-          transition={{
-            repeat: Infinity,
-            duration: 25,
-            ease: 'linear',
           }}
         >
           {/* The 3D Cube */}
@@ -231,7 +224,7 @@ export const Interactive3DObject: React.FC = () => {
               <span className="text-[9px] uppercase tracking-widest font-heading text-textSecondary mt-2">Score</span>
             </div>
           </motion.div>
-        </motion.div>
+        </div>
       </motion.div>
       
       {/* Small interactive floating indicators */}

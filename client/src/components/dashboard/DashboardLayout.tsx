@@ -228,10 +228,11 @@ export const DashboardLayout: React.FC = () => {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div 
-            initial={{ opacity: 0, y: -15 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            className="lg:hidden fixed inset-x-0 top-[80px] bg-cardBg bg-opacity-95 backdrop-blur-2xl border border-primaryPurple border-opacity-15 z-30 m-6 p-5 rounded-2xl flex flex-col gap-4 shadow-glass"
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.15, ease: 'easeOut' }}
+            className="lg:hidden fixed inset-x-0 top-[80px] bg-[#12121a] bg-opacity-98 backdrop-blur-md border border-primaryPurple border-opacity-15 z-30 m-6 p-5 rounded-2xl flex flex-col gap-4 shadow-glass"
           >
             <div className="flex flex-col gap-1.5">
               {navigationItems.map((item) => {

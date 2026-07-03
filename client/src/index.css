@@ -158,10 +158,17 @@
   justify-content: center;
   border-radius: 24px;
   border-width: 2px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   user-select: none;
   transition: border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+}
+
+@keyframes spin-cube-y {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+.animate-spin-y {
+  animation: spin-cube-y 25s linear infinite;
 }
 
 
