@@ -115,8 +115,8 @@ export const DashboardLayout: React.FC = () => {
             <div className="w-9 h-9 bg-gradient-to-tr from-primaryPurple to-secondaryPurple flex items-center justify-center rounded-xl text-white font-heading font-extrabold text-lg shadow-glow-purple">
               IQ
             </div>
-            <span className="font-heading font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-textSecondary">
-              Resume<span className="text-secondaryPurple font-extrabold">IQ</span>
+            <span className="font-heading font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-textSecondary light-mode-logo-text">
+              Resume<span className="text-secondaryPurple font-extrabold ml-1">IQ</span>
             </span>
           </div>
 

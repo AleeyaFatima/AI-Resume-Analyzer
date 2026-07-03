@@ -254,3 +254,15 @@
   background-color: rgba(139, 92, 246, 0.08) !important;
 }
 
+.light-mode .light-mode-logo-text {
+  background-image: linear-gradient(to right, #1F2937, #4B5563) !important;
+}
+
+.light-mode .cube-face-3d span,
+.light-mode .cube-face-3d svg {
+  color: #1F2937 !important;
+}
+
+.light-mode .cube-face-3d {
+  background: rgba(139, 92, 246, 0.15) !important;
+}

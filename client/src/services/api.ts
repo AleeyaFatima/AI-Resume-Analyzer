@@ -1,9 +1,14 @@
 const getApiBaseUrl = () => {
   if (typeof window !== 'undefined') {
     const saved = localStorage.getItem('resumeiq_api_url');
-    if (saved) return saved;
+    if (saved && !saved.includes(window.location.host)) {
+      return saved;
+    }
   }
-  return import.meta.env.VITE_API_URL || 'http://localhost:8080';
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  return 'http://localhost:8080';
 };
 
 export interface GrammarIssue {
