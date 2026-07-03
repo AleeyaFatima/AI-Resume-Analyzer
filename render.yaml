@@ -23,4 +23,4 @@ services:
         fromService:
           name: resumeiq-backend
           type: web
-          property: url
+          property: host

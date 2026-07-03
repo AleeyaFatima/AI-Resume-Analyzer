@@ -4,9 +4,24 @@ const getApiBaseUrl = () => {
     if (saved && !saved.includes(window.location.host)) {
       return saved;
     }
+    
+    // Auto-detect Render backend URL:
+    // If the frontend is hosted on 'resumeiq-frontend-xxxx.onrender.com',
+    // the backend will be on 'resumeiq-backend-xxxx.onrender.com'!
+    const host = window.location.hostname;
+    if (host.includes('onrender.com')) {
+      const parts = host.split('.');
+      const sub = parts[0];
+      if (sub.includes('frontend')) {
+        const backendSub = sub.replace('frontend', 'backend');
+        return `https://${backendSub}.onrender.com`;
+      }
+    }
   }
-  if (import.meta.env.VITE_API_URL) {
-    return import.meta.env.VITE_API_URL;
+
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (envUrl && envUrl !== 'resumeiq-backend' && !envUrl.includes('localhost')) {
+    return envUrl;
   }
   return 'http://localhost:8080';
 };
