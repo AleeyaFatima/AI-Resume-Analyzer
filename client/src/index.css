@@ -262,7 +262,3 @@
 .light-mode .cube-face-3d svg {
   color: #1F2937 !important;
 }
-
-.light-mode .cube-face-3d {
-  background: rgba(139, 92, 246, 0.15) !important;
-}

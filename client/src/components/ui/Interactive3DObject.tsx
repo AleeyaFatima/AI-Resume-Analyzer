@@ -14,35 +14,35 @@ const themes: ColorTheme[] = [
   {
     name: 'Cyber Purple',
     border: '#8B5CF6',
-    bg: 'rgba(139, 92, 246, 0.08)',
+    bg: 'rgba(139, 92, 246, 0.16)',
     glow: 'rgba(139, 92, 246, 0.4)',
     accent: '#C4B5FD'
   },
   {
     name: 'Neon Cyan',
     border: '#00F0FF',
-    bg: 'rgba(0, 240, 255, 0.08)',
+    bg: 'rgba(0, 240, 255, 0.16)',
     glow: 'rgba(0, 240, 255, 0.4)',
     accent: '#00B8D9'
   },
   {
     name: 'Acid Emerald',
     border: '#10B981',
-    bg: 'rgba(16, 185, 129, 0.08)',
+    bg: 'rgba(16, 185, 129, 0.16)',
     glow: 'rgba(16, 185, 129, 0.4)',
     accent: '#059669'
   },
   {
     name: 'Hot Pink',
     border: '#FF007F',
-    bg: 'rgba(255, 0, 127, 0.08)',
+    bg: 'rgba(255, 0, 127, 0.16)',
     glow: 'rgba(255, 0, 127, 0.4)',
     accent: '#D0006F'
   },
   {
     name: 'Solar Gold',
     border: '#F59E0B',
-    bg: 'rgba(245, 158, 11, 0.08)',
+    bg: 'rgba(245, 158, 11, 0.16)',
     glow: 'rgba(245, 158, 11, 0.4)',
     accent: '#D97706'
   }
