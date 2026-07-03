@@ -7,7 +7,7 @@ const getApiBaseUrl = () => {
     
     const host = window.location.hostname;
     if (host.includes('onrender.com')) {
-      return 'https://resumeiq-backend.onrender.com';
+      return 'https://resumeiq-backend-o9zv.onrender.com';
     }
   }
 
