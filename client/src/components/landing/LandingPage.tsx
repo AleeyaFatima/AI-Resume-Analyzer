@@ -53,7 +53,7 @@ export const LandingPage: React.FC = () => {
     },
     {
       q: "What file formats are supported?",
-      a: "We currently support standard PDF (.pdf) and Microsoft Word (.docx / .doc) documents. For best results, ensure your document is text-searchable (not a flattened screenshot PDF)."
+      a: "We currently support standard PDF (.pdf), Microsoft Word (.docx / .doc) documents, and clear resume images (.jpg, .jpeg, .png). For images, ensure they are high-contrast and legible."
     },
     {
       q: "Is my personal data secure?",
@@ -139,7 +139,7 @@ export const LandingPage: React.FC = () => {
               type="file"
               id="resume-file-input"
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-              accept=".pdf,.docx,.doc,.txt"
+              accept=".pdf,.docx,.doc,.txt,.jpg,.jpeg,.png"
               onChange={handleFileInput}
               disabled={loading}
             />
